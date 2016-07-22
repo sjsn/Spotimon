@@ -1,0 +1,112 @@
+<main ng-init="loadNext()">
+
+	<section role="region" ng-show="win" aria-live="polite">
+		<div class="container stats stats-top win-message">
+			<h2>You win!</h2>
+			<p>Click the button below to go back to the homepage to restart!</p>
+			<button class="start-button btn" ui-sref="home">Play again!</button>
+		</div>
+	</section>
+
+	<!-- Play area -->
+	<section role="region" ng-show="!journal" aria-live="polite">
+		<!-- Opponent area -->
+		<section role="region" class="opp-section" ng-show="!win">
+			<div class="container opp-holder">
+				<!-- Opponent image -->
+				<div class="container col-md-4 col-lg-3 col-sm-6 col-xs-6 battle-img">
+						<img src="img/spotify-logo.png" alt="Opponent Image" id="opponent-img" ng-if="noImage">
+						<img ng-src="{{opponent.img}}" alt="Opponent Image" id="opponent-img" ng-if="!noImage">
+				</div>
+				<!-- Opponent stats field -->
+				<div class="opponent">
+					<div class="stats stats-top col-md-6 col-lg-6 col-sm-6 col-xs-6">
+						<h2 class="name">{{opponent.name}}</h2>
+						<h3 class="barTitle">Health: </h3>
+						<p class="barInfo">{{opponent.health * 100}}/{{opponent.answers * 100}}</p>
+						<div id="healthBase" aria-label="health bar"><div id="health" ng-style="curHealth"></div></div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- User area -->
+		<section role="region" class="personal">
+			<div class="container pers-holder">
+				<!-- Attack text field (Hidden when menus present) -->
+				<div class="attack-prompt" ng-show="attackToggle">
+					<form class="form-group attack-form" name="attackForm">
+						<div class="input-group col-md-6 col-lg-6 col-sm-6">
+							<input class="form-control" type="text" name="attack" placeholder="{{buttonText}}" ng-model="guess" required>
+							<div class="input-group-btn">
+								<button type="button" class="btn btn-default" ng-disabled="attackForm.$invalid" ng-click="attack(attackType, guess)">Attack</button>
+							</div>
+						</div>
+						<div class="input-group col-md-6 col-lg-6 col-sm-6 attack-fill">
+							<p class="no-fill" ng-show="toggleIncorrect">Incorrect guess. Try again!</p>
+							<p class="no-fill" ng-show='attackForm.attack.$invalid &amp;&amp; attackForm.attack.$dirty &amp;&amp; guess != "" &amp;&amp; canGuess'>You must fill in an attack</p>
+							<p class="no-fill" ng-show="!canGuess">You're out of attacks (PP)! Attempt to Catch or Run.</p>
+							<p class="right" ng-show="toggleCorrect">Correct!</p>
+						</div>
+					</form>
+				</div>
+				<div class="caught-message" ng-show="captureSuccess != 0">
+					<p class="caught" ng-show="captureSuccess == 1">Track caught!</p>
+					<p class="not-caught" ng-show="captureSuccess == 2">Failed to catch track!</p>
+				</div>
+				<!-- Stats Window -->
+				<div class="stats col-md-6 col-sm-6 col-lg-6 col-xs-6 persStats">
+					<!-- Menu buttons (Hidden when attack buttons present) -->
+					<div class="input-group" id="battle-menu" ng-show="menu != true">
+						<h2 class="name">{{username}}</h2>
+						<h3 class="barTitle">Game Progress: </h3>
+						<p class="barInfo">{{totalCaught}} Caught / {{totalUncaught}} Total</p>
+						<div id="progressBase" aria-labe="progress bar"><div id="progress" ng-style="curProgress"></div></div>
+						<div class="col-md-6 col-sm-6 col-lg-6 col-xs-6" ng-repeat="option in options">
+							<button class="custom-button" ng-click="toggleMenu(option)"><i class="fa fa-caret-right" aria-hidden="true"></i>
+{{option}}</button>
+						</div>
+					</div>
+					<!-- Attack buttons (Hidden when menus present) -->
+					<div class="input-group" id="attackMenu" ng-show="menu == true">
+						<div class="col-md-12 col-sm-12 col-xs-12 col-lg-12">
+							<button class="custom-button" ng-click="toggleMenu('Back')"><i class="fa fa-caret-left" aria-hidden="true"></i>
+Back</button>
+							<p class="attack-text">Choose an attack!</p>
+							<p>PP: {{movesLeft}}/5</p>
+						</div>
+						<div ng-repeat="attack in attacks" class="col-md-6 col-sm-6 col-lg-6 col-xs-6">
+							<button class="custom-button" ng-click="toggleAttack(attack.name)"><i class="fa fa-caret-right" aria-hidden="true"></i>
+{{attack.name}}</button>
+						</div>
+					</div>
+				</div>
+				<!-- Users image -->
+				<div class="container col-md-4 col-sm-6 col-lg-3 col-xs-6 battle-img">
+					<img src="img/spotify-logo.png" alt="avatar" >
+				</div>
+			</div>
+		</section>
+	</section>
+
+	<!-- Journal area -->
+	<section role="region" ng-show="journal" aria-live="polite" class="journal">
+		<div class="container info-blurb" ng-show="journal">
+			<header>
+				<h2>Caught Tracks</h3>
+			</header>
+			<section role="region">
+				<div id="close">
+					<button ng-click="toggleMenu('Journal')" class="custom-button">
+						<i class="fa fa-times" aria-hidden="true"></i>
+					</button>
+				</div>
+				<p ng-if="tracks.length == 0">You haven't caught any tacks yet!</p>
+				<div class="container col-md-4 col-sm-6 col-xs-6 col-lg-4" ng-repeat="track in tracks">
+					<h3>{{track.name}}</h3>
+					<img ng-src="{{track.img}}" alt="Track image" class="journal-img">
+					<p>{{track.album.name}}</span></p>
+			</section>
+		</div>
+	</section>
+</main>

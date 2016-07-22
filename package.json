@@ -1,0 +1,16 @@
+{
+  "name": "angularproj",
+  "version": "1.0.0",
+  "description": "This folder contains code for interactively displaying a data set, created as part of the Angular Challenge.",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Sam San Nicolas",
+  "license": "ISC",
+  "devDependencies": {
+    "browser-sync": "^2.13.0",
+    "gulp": "^3.9.1",
+    "gulp-uglify": "^1.5.4"
+  }
+}

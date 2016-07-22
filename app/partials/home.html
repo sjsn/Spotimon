@@ -1,0 +1,74 @@
+<header role="banner">
+	<div class="holder">
+		<h1>Spotimon</h1>
+		<img src="img/spotify-logo.png" id="titleLogo" alt="Spotimon logo" />
+	</div>
+</header>
+
+<main>
+	<section role="region" ng-show="!showInfo" aria-live="polite" id="home-main">
+		<div id="cloud-lane">
+			<div ng-if="cloudRight" class="slide-right cloud-holder" ng-style="{{startTop}}">
+				<p class="cloud-text-right" aria-hidden="true">{{randArtist}}</p>
+				<img src="img/cloud.png" ng-class="{flipped:flipped, 'moving-cloud':cloudRight, 'cloud-right':cloudRight}" aria-hidden="true" />
+			</div>
+			 <div ng-if="cloudLeft" class="slide-left cloud-holder" ng-style="{{startTop}}">
+			 	<p class="cloud-text-left" aria-hidden="true">{{randArtist}}</p>
+				<img src="img/cloud.png" ng-class="{flipped:flipped, 'moving-cloud':cloudLeft, 'cloud-left':cloudLeft}" aria-hidden="true" />
+			</div>
+		</div>
+
+		<div id="start-container">
+			<form name="startForm" role="form" novalidate class="form-inline">
+				<div class="form-group">
+					<div class="input-group" id="inputs">
+						<input class="form-control" id="username" type="text" name="username" placeholder="Pick a username" ng-model="userName" required
+						>
+						<div class="input-group-btn">
+							<button class="btn btn-default" id="info" title="What is this?" aria-label="Instructions" ng-click="toggleInfo()">
+								<i class="fa fa-info-circle" aria-hidden="true"></i>
+							</button>
+						</div>
+					</div>
+					<p class="no-fill" ng-show="startForm.username.$invalid &amp;&amp; !startForm.username.$pristine">A username is required to start</p>
+					<button class="start-button btn" ng-disabled="startForm.$invalid" ng-click="makeUser(userName)" ui-sref="game">Start</button>
+				</div>
+			</form>
+		</div>
+	</section>
+
+	<section role="region" ng-show="showInfo" aria-live="polite">
+		<div class="container info-blurb home-blurb" ng-show="showInfo">
+			<header>
+				<h2>Instructions</h3>
+			</header>
+			<div id="close">
+				<button ng-click="toggleInfo()" class="custom-button">
+					<i class="fa fa-times" aria-hidden="true"></i>
+				</button>
+			</div>
+			<ul>
+				<li><ul><h3>The Game</h3>
+					<li>Spotimon is a mixture of trivia and Pokemon! <span class="important">Battle</span> Spotify tracks in order to <span clsas="important">catch</span> them.</li>
+					<li>
+						In battle, you can either <span class="important">Attack</span> an opponent or <span class="important">Run</span> from them. <span class="important">Attacking</span> allows you to 
+						weaken them by stating facts you know about the track such as an artist that produced it or the title of the album it was released with. Be careful! You only get 5 <span class="important">Attack</span> attempts total! If you don't know anything about the track then you can <span class="important">Run</span>. This action will take you to the next artist.
+					</li>
+					<li>
+						There are a total of 20 <span class="important">Spotimon</span> per game. When you <span class="important">Run</span> from a track, you will never see it again.
+					</li>
+					<li>
+						Once caught, a track lives inside your <span class="important">Journal</span>. Access your <span class="important">Journal</span> at any time to see which tracks you've caught and which ones you've missed!
+					</li>
+				</ul></li>
+				<li>
+					<h3>About</h3>
+					<p>
+						Spotimon was created by Sam San Nicolas using AngularJS, LoDash, Bootstrap, and the Spotify API.
+					</p>
+				</li>
+			</ul>
+		</div>
+	</section>
+	
+</main>
